@@ -1,0 +1,113 @@
+{
+  "dir": "ltr",
+  "lang": "en",
+  "name": "Report It",
+  "scope": "/",
+  "display": "fullscreen",
+  "start_url": "https://markreportit.azurewebsites.net/",
+  "short_name": "Report It",
+  "theme_color": "#0352a2",
+  "description": "Report It",
+  "orientation": "any",
+  "background_color": "#0352a2",
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/images/manifest/b71dbc0f-04bd-6dec-6678-dadc3ad8e530.webPlatform.png",
+      "sizes": "44x44",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/manifest/85400d0f-b856-3ad7-4025-9dca433a0379.webPlatform.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/manifest/f0eeab57-597a-d564-dc34-84c6728e3261.webPlatform.png",
+      "sizes": "1240x600",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/manifest/0e1ec14d-22dd-e801-3171-9f31a4e8e2c7.webPlatform.png",
+      "sizes": "300x300",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/manifest/2be7b9a6-6dc2-8e44-642e-1dcf57a85600.webPlatform.png",
+      "sizes": "150x150",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/manifest/83821767-a645-4ce6-c3a3-30339415e82f.webPlatform.png",
+      "sizes": "88x88",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/manifest/7f4f84c2-b6bf-bccb-6107-8dd66b048fdd.webPlatform.png",
+      "sizes": "24x24",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/manifest/f45bed9e-0e66-409e-208b-c4ec8e5abd40.webPlatform.png",
+      "sizes": "50x50",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/manifest/ee49f708-c4a4-ec35-61d9-aaf1f5fe0f04.webPlatform.png",
+      "sizes": "620x300",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/manifest/ebfd04d3-f791-a4b1-dc97-f156c9f00400.webPlatform.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/manifest/3b45cc71-7ebc-345e-6a6c-d9c4bfd7716f.webPlatform.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/manifest/7f6f4086-1cdb-8d64-a798-e0f8f31b5a91.webPlatform.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/manifest/8f17b34e-37be-8244-65e2-6143a1300e39.webPlatform.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/manifest/f8dc9706-f590-a99a-e08a-30ec99bf51fa.webPlatform.png",
+      "sizes": "36x36",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/manifest/56f416b4-8579-07b3-eb8f-8db3e222510e.webPlatform.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/manifest/6793a278-6560-8fcc-befb-c4c9dd8a95ff.webPlatform.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/manifest/59a3dcc9-a234-7c4b-d5fb-679d72c9ff49.webPlatform.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/manifest/3c696aec-f2a0-2f66-9bab-7b12467cd055.webPlatform.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/manifest/dad335c9-ffac-f6fd-0546-3968dfab65f5.webPlatform.png",
+      "sizes": "76x76",
+      "type": "image/png"
+    }
+  ],
+  "generated": true
+}

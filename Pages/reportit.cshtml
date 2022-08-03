@@ -1,0 +1,11 @@
+﻿@page
+@model ThingsReportIt.Pages.ReportItModel
+@{
+    Layout = null;
+    Response.ContentType = "application/json";
+    Response.StatusCode = Model.responseStatusCode;
+}
+{
+  "title": @Model.responseTitle,
+  "status": @Model.responseStatusCode
+}

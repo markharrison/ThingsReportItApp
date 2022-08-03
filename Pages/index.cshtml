@@ -1,0 +1,43 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+@Html.AntiForgeryToken()
+<div class="text-left" id="idCameraWrapper">
+    <div class="text-center">
+        <video id="idVideo" style="display:none;" autoplay muted> </video>
+        <canvas id="idCanvas" style="display:none;"></canvas>
+    </div>
+    <div id="idInfo" style="display:none;">
+        <div class="infoDivtab">
+            <div class="infoDivtabBody">
+                <div class="infoDivtabRow">
+                    <div class="infoDivtabCell1">Name:&nbsp;</div>
+                    <div class="infoDivtabCell2"><input type="text" id="idName" value="" style="width:100%" /></div>
+
+                </div>
+                <div class="infoDivtabRow">
+                    <div class="infoDivtabCell1">Additional&nbsp;Info:&nbsp;</div>
+                    <div class="infoDivtabCell2"><input type="text" id="idText" value="" maxlength="200" style="width:100%" /></div>
+                </div>
+                <div class="infoDivtabRow">
+                    <div class="infoDivtabCell1">Geo&nbsp;Location:&nbsp;</div>
+                    <div class="infoDivtabCell2" id="idGeoLocation"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="idRspMsg" class="RspMsg" style="display:none; "></div>
+</div>
+<hr />
+<button class="btn btn-secondary" id="idButOpenCamera">Open Camera</button>
+<button class="btn btn-primary" id="idButReportIt" style="display:none;">Report It</button>
+<button class="btn btn-secondary" id="idButTakePhoto" style="display:none;">Take Photo</button>
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            doIndexReady();
+        });
+    </script>
+}

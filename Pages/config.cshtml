@@ -1,0 +1,56 @@
+﻿@page
+@model ThingsReportIt.Pages.ConfigModel
+@{
+    ViewData["Title"] = "Camera Config";
+}
+<h4>Camera Config</h4>
+<br />
+@using (Html.BeginForm())
+{
+    <div class="infoDivtab">
+        <div class="infoDivtabBody">
+            <div class="infoDivtabRow">
+                <div class="infoDivtabCell1">Camera&nbsp;Screen&nbsp;Size:&nbsp;</div>
+                <div class="infoDivtabCell2">
+                    <select asp-for="CameraScreenSize" asp-items="Model.CameraScreenSizeList"></select>
+                </div>
+            </div>
+            <div class="infoDivtabRow">
+                <div class="infoDivtabCell1">Camera&nbsp;selection:&nbsp;</div>
+                <div class="infoDivtabCell2">
+                    <select asp-for="CameraSelection" asp-items="Model.CameraSelectionList"></select>
+                </div>
+            </div>
+            <div class="infoDivtabRow">
+                <div class="infoDivtabCell1">JPG&nbsp;quality:&nbsp;</div>
+                <div class="infoDivtabCell2">
+                    <select asp-for="JPGQuality" asp-items="Model.JPGQualityList"></select>
+                </div>
+            </div>
+            <div class="infoDivtabRow">
+                <div class="infoDivtabCell1">Thing&nbsp;Id:&nbsp;</div>
+                <div class="infoDivtabCell2">
+                    <input asp-for="Thingid" size="5" />&nbsp;<a id="idHelpLink" href="#" onclick="$('#idHelp').show(); $('#idHelpLink').hide(); return false;">Help</a>
+                </div>
+            </div>
+            <div class="infoDivtabRow">
+                <div class="infoDivtabCell1"></div>
+                <div class="infoDivtabCell2">
+                    <span asp-validation-for="Thingid" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="idHelp" class="helpinfo">
+        Value of zero: update if match on name / location - otherwise will insert using next free identifier<br />
+        Value of 1 to 1000: update / insert using identifier
+    </div>
+    <hr />
+    <button type="submit" class="btn btn-secondary" id="idSubmit">Submit</button>
+    <br /><br />
+}
+
+@section scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+

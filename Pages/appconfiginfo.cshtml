@@ -1,0 +1,24 @@
+﻿@page
+@model ThingsReportIt.Pages.AppConfigInfoModel
+@{
+    Layout = null; 
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Report It - configinfo</title>
+    <style>
+        body {
+            font-family: "Segoe UI",Roboto,"Helvetica Neue",Arial,"sans-serif";
+        }
+    </style>
+</head>
+<body>
+    <h3>ReportIt - AppConfigInfo</h3>
+    @Html.Raw(Model.strHtml)
+    <hr />
+    <a href="/">Home</a>
+</body>
+</html>
+
