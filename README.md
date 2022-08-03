@@ -22,4 +22,4 @@ Environment variables / configuration
 
 ## Package 
 
-<https://github.com/markharrison/ThingsReportIt/pkgs/container/thingsreportit>
+<https://github.com/markharrison/ThingsReportIt/pkgs/container/thingsreportitapp>
