@@ -4,7 +4,7 @@
   "name": "Report It",
   "scope": "/",
   "display": "fullscreen",
-  "start_url": "https://markreportit.azurewebsites.net/",
+  "start_url": "/",
   "short_name": "Report It",
   "theme_color": "#0352a2",
   "description": "Report It",

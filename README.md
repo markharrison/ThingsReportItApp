@@ -20,6 +20,11 @@ Environment variables / configuration
 | LogicAppEndpoint         | WebHook for Logic App to process event   |   
 
 
+## Infrastructure as Code
+
+<https://github.com/markharrison/ThingsReportIt/blob/main/infra/README.md>
+
+
 ## Package 
 
 <https://github.com/markharrison/ThingsReportIt/pkgs/container/thingsreportitapp>
