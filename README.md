@@ -22,9 +22,9 @@ Environment variables / configuration
 
 ## Infrastructure as Code
 
-<https://github.com/markharrison/ThingsReportIt/blob/main/infra/README.md>
+<https://github.com/markharrison/ThingsReportItApp/blob/main/infra/README.md>
 
 
 ## Package 
 
-<https://github.com/markharrison/ThingsReportIt/pkgs/container/thingsreportitapp>
+<https://github.com/markharrison/ThingsReportItApp/pkgs/container/thingsreportitapp>
