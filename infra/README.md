@@ -10,6 +10,7 @@ LOCATION="uksouth"
 PLANNAME="appserviceplan"
 APPNAME="thingzrep"
 STORAGENAME="thingzstorage"
+LOGICAPPNAME="thingzlogicapp"
 
 ```
 
@@ -35,8 +36,18 @@ az appservice plan create -g $RG  \
 
 ```
 STORAGEKEY=$(az storage account keys list -n $STORAGENAME -g $RG  -o tsv --query "[0].value" )
-
 printf -v STORAGECS "DefaultEndpointsProtocol=https;AccountName=$STORAGENAME;AccountKey=$STORAGEKEY;EndpointSuffix=core.windows.net" 
+
+```
+
+### Get URL endpoint for logic app
+
+```
+printf -v PSCMD "write-output (Get-AzLogicAppTriggerCallbackUrl -ResourceGroupName $RG -Name $LOGICAPPNAME -TriggerName manual -verbose).Value;"
+pwsh -command $PSCMD
+PSOUTPUT=$(pwsh -command $PSCMD)
+LAENDPOINT=${PSOUTPUT/*http/http}
+echo $LAENDPOINT
 
 ```
 
@@ -49,7 +60,7 @@ az webapp stop -g $RG -n $APPNAME
 
 az webapp config appsettings set -g $RG -n $APPNAME --settings \
  AdminPW="????????" \
- LogicAppEndpoint="????"
+ LogicAppEndpoint=$LAENDPOINT
 
 az webapp config connection-string set -g $RG -n $APPNAME -t custom --settings \
   ThingsStorageConnectionString=$STORAGECS
