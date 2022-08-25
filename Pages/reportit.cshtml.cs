@@ -65,7 +65,7 @@ namespace ThingsReportIt.Pages
             try
             {
                 byte[] photodata = Convert.FromBase64String(RIData.image.Replace("data:image/jpeg;base64,", ""));
-                _Bclient = _BCclient.GetBlobClient("image-" + GetTimestamp() + "-" + RemoveNonAlphanumericChars(RIData.name.Trim().ToLower()) + "-" + ".jpg");
+                _Bclient = _BCclient.GetBlobClient("image-" + GetTimestamp() + "-" + RemoveNonAlphanumericChars(RIData.name.Trim().ToLower()) + ".jpg");
                 _Bclient.DeleteIfExists();
 
                 await _Bclient.UploadAsync(new MemoryStream(photodata));
