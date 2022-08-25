@@ -17,7 +17,7 @@ Environment variables / configuration
 |--------------------------|-----------| 
 | ThingsDbConnectionString | Connection string for in Azure Storage  |  
 | ImagesContainer          | Name of container in Azure Storage to store images  |  
-| LogicAppEndpoint         | WebHook for Logic App to process event   |   
+| LogicAppEndpoint         | WebHook for Logic App to process event  - see <https://github.com/markharrison/ThingsLogicAppV1> |   
 
 
 ## Infrastructure as Code
