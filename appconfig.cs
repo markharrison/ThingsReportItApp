@@ -5,21 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
 using Azure.Storage.Blobs;
-//using Microsoft.Azure.Storage;
-//using Microsoft.Azure.Storage.Blob;
 
 namespace ThingsReportIt
 {
     public class AppConfig
     {
         public BlobContainerClient _BCclient { get; set; }
-        public string _LogicAppEndpoint { get; set; }
-
-        public string _ThingsStorageConnectionString { get; set; }
-
-        public string _ImagesContainer { get; set; }
-
-        public string _AdminPW;
+        public string? _LogicAppEndpoint { get; set; }
+        public string? _ThingsStorageConnectionString { get; set; }
+        public string? _ImagesContainer { get; set; }
+        public string? _AdminPW { get; set; }
 
         public AppConfig(IConfiguration config)
         {

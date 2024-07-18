@@ -1,18 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.IO;
+﻿using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.Http;
 using System.Text;
-using System.Net.Http;
-using Azure.Storage.Blobs;
+using System.Text.Json;
 
 namespace ThingsReportIt.Pages
 {
     public class ReportItModel : PageModel
     {
-        public string responseTitle;
+        public string? responseTitle;
         public int responseStatusCode;
 
         private readonly BlobContainerClient _BCclient;
@@ -23,7 +18,8 @@ namespace ThingsReportIt.Pages
         public ReportItModel(AppConfig _appconfig)
         {
             this._BCclient = _appconfig._BCclient;
-            this._LogicAppEndpoint = _appconfig._LogicAppEndpoint;
+            this._LogicAppEndpoint = _appconfig._LogicAppEndpoint ?? string.Empty;
+
         }
 
         public void OnGet()
@@ -34,9 +30,15 @@ namespace ThingsReportIt.Pages
 
         public class JsonContent : StringContent
         {
+            //public JsonContent(object obj) :
+            //    base(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json")
+            //{ }
+
             public JsonContent(object obj) :
-                base(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json")
+                base(JsonSerializer.Serialize(obj), Encoding.UTF8, "application/json")
             { }
+
+
         }
 
         private async Task ProcessReport(ReportItPostData RIData)
@@ -60,7 +62,14 @@ namespace ThingsReportIt.Pages
                 return value.ToString("yyyyMMddHHmmssffff");
             }
 
-            BlobClient _Bclient = null;
+            if (RIData.image == null || RIData.name == null)
+            {
+                responseTitle = "Bad Request - Image data is missing";
+                responseStatusCode = StatusCodes.Status400BadRequest;
+                return;
+            }
+
+            BlobClient? _Bclient = null;
 
             try
             {
@@ -93,8 +102,12 @@ namespace ThingsReportIt.Pages
                 HttpClient httpClient = new HttpClient();
                 httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
 
-                var jsonToSend = JsonConvert.SerializeObject(LAData, Formatting.None);
+                //var jsonToSend = JsonConvert.SerializeObject(LAData, Formatting.None);
+                //var body = new StringContent(jsonToSend, Encoding.UTF8, "application/json");
+
+                var jsonToSend = System.Text.Json.JsonSerializer.Serialize(LAData);
                 var body = new StringContent(jsonToSend, Encoding.UTF8, "application/json");
+
 
                 var response = await httpClient.PostAsync(_LogicAppEndpoint, body);
                 if (!response.IsSuccessStatusCode)
@@ -118,19 +131,28 @@ namespace ThingsReportIt.Pages
 
         public async Task OnPostAsync()
         {
-            ReportItPostData RIData = null;
+            ReportItPostData? RIData = null;
 
             try
             {
                 var reader = new StreamReader(Request.Body, System.Text.Encoding.UTF8);
                 var task = reader.ReadToEndAsync();
-                RIData = JsonConvert.DeserializeObject<ReportItPostData>(task.Result.ToString());
+//                RIData = JsonConvert.DeserializeObject<ReportItPostData>(task.Result.ToString());
+                RIData = System.Text.Json.JsonSerializer.Deserialize<ReportItPostData>(await task);
+
 
             }
             catch (Exception ex)
             {
                 responseTitle = "Internal Server Error - " + ex.Message;
                 responseStatusCode = StatusCodes.Status500InternalServerError;
+                return;
+            }
+
+            if (RIData == null)
+            {
+                responseTitle = "Bad Request - Missing Report Data";
+                responseStatusCode = StatusCodes.Status400BadRequest;
                 return;
             }
 
@@ -142,9 +164,9 @@ namespace ThingsReportIt.Pages
     public class ReportItPostData
     {
         public int thingid { get; set; }
-        public string image { get; set; }
-        public string name { get; set; }
-        public string text { get; set; }
+        public string? image { get; set; }
+        public string? name { get; set; }
+        public string? text { get; set; }
         public float latitude { get; set; }
         public float longitude { get; set; }
     }
@@ -152,9 +174,9 @@ namespace ThingsReportIt.Pages
     public class LogicAppPostData
     {
         public int thingid { get; set; }
-        public string image { get; set; }
-        public string name { get; set; }
-        public string text { get; set; }
+        public string? image { get; set; }
+        public string? name { get; set; }
+        public string? text { get; set; }
         public float latitude { get; set; }
         public float longitude { get; set; }
     }

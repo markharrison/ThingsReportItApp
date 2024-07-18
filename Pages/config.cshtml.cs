@@ -15,10 +15,10 @@ namespace ThingsReportIt.Pages
         [BindProperty]
         [Required]
         [Range(0, 1000)]
-        public string Thingid { get; set; }
+        public string? Thingid { get; set; }
 
         [BindProperty]
-        public string CameraScreenSize { get; set; }
+        public string? CameraScreenSize { get; set; }
         public List<SelectListItem> CameraScreenSizeList { get; } = new List<SelectListItem>
         {
             new SelectListItem { Value = "100", Text = "100%" },
@@ -27,7 +27,7 @@ namespace ThingsReportIt.Pages
         };
 
         [BindProperty]
-        public string CameraSelection { get; set; }
+        public string? CameraSelection { get; set; }
         public List<SelectListItem> CameraSelectionList { get; } = new List<SelectListItem>
         {
             new SelectListItem { Value = "default", Text = "Default" },
@@ -36,7 +36,7 @@ namespace ThingsReportIt.Pages
         };
 
         [BindProperty]
-        public string JPGQuality { get; set; }
+        public string? JPGQuality { get; set; }
         public List<SelectListItem> JPGQualityList { get; } = new List<SelectListItem>
         {
             new SelectListItem { Value = "0.95", Text = "0.95" },
@@ -47,30 +47,10 @@ namespace ThingsReportIt.Pages
 
         public void OnGet()
         {
-            CameraSelection = Request.Cookies["CameraSelection"];
-            if (CameraSelection == null)
-            {
-                CameraSelection = "default";
-            }
-
-            CameraScreenSize = Request.Cookies["CameraScreenSize"];
-            if (CameraScreenSize == null)
-            {
-                CameraScreenSize = "100%";
-            }
-
-            JPGQuality = Request.Cookies["JPGQuality"];
-            if (JPGQuality == null)
-            {
-                JPGQuality = "0.75";
-            }
-
-            Thingid = Request.Cookies["Thingid"];
-            if (Thingid == null)
-            {
-                Thingid = "0";
-            }
-
+            CameraSelection = Request.Cookies["CameraSelection"] ?? "default";
+            CameraScreenSize = Request.Cookies["CameraScreenSize"] ?? "100%";
+            JPGQuality = Request.Cookies["JPGQuality"] ?? "0.75";
+            Thingid = Request.Cookies["Thingid"] ?? "0";
         }
         public IActionResult OnPost()
         {
