@@ -30,10 +30,6 @@ namespace ThingsReportIt.Pages
 
         public class JsonContent : StringContent
         {
-            //public JsonContent(object obj) :
-            //    base(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json")
-            //{ }
-
             public JsonContent(object obj) :
                 base(JsonSerializer.Serialize(obj), Encoding.UTF8, "application/json")
             { }
@@ -102,9 +98,6 @@ namespace ThingsReportIt.Pages
                 HttpClient httpClient = new HttpClient();
                 httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
 
-                //var jsonToSend = JsonConvert.SerializeObject(LAData, Formatting.None);
-                //var body = new StringContent(jsonToSend, Encoding.UTF8, "application/json");
-
                 var jsonToSend = System.Text.Json.JsonSerializer.Serialize(LAData);
                 var body = new StringContent(jsonToSend, Encoding.UTF8, "application/json");
 
@@ -137,7 +130,6 @@ namespace ThingsReportIt.Pages
             {
                 var reader = new StreamReader(Request.Body, System.Text.Encoding.UTF8);
                 var task = reader.ReadToEndAsync();
-//                RIData = JsonConvert.DeserializeObject<ReportItPostData>(task.Result.ToString());
                 RIData = System.Text.Json.JsonSerializer.Deserialize<ReportItPostData>(await task);
 
 
