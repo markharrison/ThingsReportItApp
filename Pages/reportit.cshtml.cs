@@ -130,6 +130,7 @@ namespace ThingsReportIt.Pages
             {
                 responseTitle = "Internal Server Error - " + ex.Message;
                 responseStatusCode = StatusCodes.Status500InternalServerError;
+                return;
             }
 
             responseTitle = "Success";
