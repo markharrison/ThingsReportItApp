@@ -41,7 +41,8 @@ namespace ThingsReportIt.Pages
             {
                 strHtml += EchoData("ASPNETCORE_ENVIRONMENT", _config.GetValue<string>("ASPNETCORE_ENVIRONMENT") ?? "");
                 strHtml += EchoData("APPLICATIONINSIGHTS_CONNECTION_STRING", _config.GetValue<string>("APPLICATIONINSIGHTS_CONNECTION_STRING") ?? "");
-                strHtml += EchoData("LogicAppEndpoint", _appconfig._LogicAppEndpoint ?? "");
+                strHtml += EchoData("EventGridTopicEndpoint", _appconfig._EventGridTopicEndpoint ?? "");
+                strHtml += EchoData("EventGridKey", _appconfig._EventGridKey ?? "");
                 strHtml += EchoData("ThingsStorageConnectionString", _appconfig._ThingsStorageConnectionString ?? "");
                 strHtml += EchoData("ImagesContainer", _appconfig._ImagesContainer ?? "");
                 strHtml += EchoData("CameraSelection", obj2string(Request.Cookies["CameraSelection"] ?? ""));

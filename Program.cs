@@ -11,6 +11,8 @@ namespace ThingsReportItApp
             builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
             builder.Services.AddRazorPages();
             builder.Services.AddSingleton<AppConfig>(new AppConfig(builder.Configuration));
+            builder.Services.AddHttpClient();
+
 
             var app = builder.Build();
 

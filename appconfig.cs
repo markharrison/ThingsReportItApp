@@ -11,17 +11,26 @@ namespace ThingsReportIt
     public class AppConfig
     {
         public BlobContainerClient _BCclient { get; set; }
-        public string? _LogicAppEndpoint { get; set; }
+        public string? _EventGridTopicEndpoint { get; set; }
+        public string? _EventGridKey { get; set; }
         public string? _ThingsStorageConnectionString { get; set; }
         public string? _ImagesContainer { get; set; }
         public string? _AdminPW { get; set; }
 
         public AppConfig(IConfiguration config)
         {
-            _LogicAppEndpoint = config.GetValue<string>("LogicAppEndpoint");
-            if (_LogicAppEndpoint == null || _LogicAppEndpoint == "")
+            _EventGridTopicEndpoint = config.GetValue<string>("EventGridTopicEndpoint");
+            if (_EventGridTopicEndpoint == null || _EventGridTopicEndpoint == "")
             {
-                var msg = "LogicAppEndpoint is not configured";
+                var msg = "EventGridTopicEndpoint is not configured";
+                Console.WriteLine(msg);
+                throw new Exception(msg);
+            }
+
+            _EventGridKey = config.GetValue<string>("EventGridKey");
+            if (_EventGridKey == null || _EventGridKey == "")
+            {
+                var msg = "EventGridKey is not configured";
                 Console.WriteLine(msg);
                 throw new Exception(msg);
             }

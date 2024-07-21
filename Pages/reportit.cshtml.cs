@@ -1,5 +1,7 @@
 ﻿using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
@@ -11,15 +13,17 @@ namespace ThingsReportIt.Pages
         public int responseStatusCode;
 
         private readonly BlobContainerClient _BCclient;
+        private readonly string _EventGridTopicEndpoint;
+        private readonly string _EventGridKey;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        private readonly string _LogicAppEndpoint;
 
-
-        public ReportItModel(AppConfig _appconfig)
+        public ReportItModel(AppConfig appconfig, IHttpClientFactory httpClientFactory)
         {
-            this._BCclient = _appconfig._BCclient;
-            this._LogicAppEndpoint = _appconfig._LogicAppEndpoint ?? string.Empty;
-
+            _BCclient = appconfig._BCclient;
+            _EventGridTopicEndpoint = appconfig._EventGridTopicEndpoint ?? string.Empty;
+            _EventGridKey = appconfig._EventGridKey ?? string.Empty;
+            _httpClientFactory = httpClientFactory;
         }
 
         public void OnGet()
@@ -58,7 +62,7 @@ namespace ThingsReportIt.Pages
                 return value.ToString("yyyyMMddHHmmssffff");
             }
 
-            if (RIData.image == null || RIData.name == null)
+            if (RIData.Image == null || RIData.Name == null)
             {
                 responseTitle = "Bad Request - Image data is missing";
                 responseStatusCode = StatusCodes.Status400BadRequest;
@@ -69,8 +73,8 @@ namespace ThingsReportIt.Pages
 
             try
             {
-                byte[] photodata = Convert.FromBase64String(RIData.image.Replace("data:image/jpeg;base64,", ""));
-                _Bclient = _BCclient.GetBlobClient("image-" + GetTimestamp() + "-" + RemoveNonAlphanumericChars(RIData.name.Trim().ToLower()) + ".jpg");
+                byte[] photodata = Convert.FromBase64String(RIData.Image.Replace("data:image/jpeg;base64,", ""));
+                _Bclient = _BCclient.GetBlobClient("image-" + GetTimestamp() + "-" + RemoveNonAlphanumericChars(RIData.Name.Trim().ToLower()) + ".jpg");
                 _Bclient.DeleteIfExists();
 
                 await _Bclient.UploadAsync(new MemoryStream(photodata));
@@ -85,27 +89,38 @@ namespace ThingsReportIt.Pages
 
             try
             {
-                LogicAppPostData LAData = new LogicAppPostData
+                ThingItem TIData = new ThingItem
                 {
-                    thingid = RIData.thingid,
-                    image = _Bclient.Uri.ToString(),
-                    text = RIData.text,
-                    name = RIData.name,
-                    latitude = RIData.latitude,
-                    longitude = RIData.longitude
+                    Thingid = RIData.Thingid,
+                    Name = RIData.Name,
+                    Latitude = RIData.Latitude,
+                    Longitude = RIData.Longitude,
+                    Image = _Bclient.Uri.ToString(),
+                    Text = RIData.Text,
+                    Status = "?",
+                    Data = ""
                 };
 
-                HttpClient httpClient = new HttpClient();
-                httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+                EventGridPostData EGData = new EventGridPostData
+                {
+                    subject = "Alarm",
+                    id = Guid.NewGuid().ToString(),
+                    eventType = "AlarmTrigger",
+                    eventTime = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss.FFFFFFK"),
+                    data = TIData
+                };
 
-                var jsonToSend = System.Text.Json.JsonSerializer.Serialize(LAData);
-                var body = new StringContent(jsonToSend, Encoding.UTF8, "application/json");
+                var httpClient = _httpClientFactory.CreateClient();
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.DefaultRequestHeaders.Add("aeg-sas-key", _EventGridKey);
 
+                var jsonContent = new JsonContent(new[] { EGData });
+                HttpResponseMessage response = await httpClient.PostAsync(_EventGridTopicEndpoint, jsonContent);
 
-                var response = await httpClient.PostAsync(_LogicAppEndpoint, body);
                 if (!response.IsSuccessStatusCode)
                 {
-                    responseTitle = "Internal Server Error - Response from Logic App: " + response.StatusCode;
+                    responseTitle = "Internal Server Error - Response from EventGrid: " + response.StatusCode;
                     responseStatusCode = StatusCodes.Status500InternalServerError;
                     return;
                 }
@@ -113,7 +128,6 @@ namespace ThingsReportIt.Pages
             }
             catch (Exception ex)
             {
-
                 responseTitle = "Internal Server Error - " + ex.Message;
                 responseStatusCode = StatusCodes.Status500InternalServerError;
             }
@@ -155,22 +169,33 @@ namespace ThingsReportIt.Pages
 
     public class ReportItPostData
     {
-        public int thingid { get; set; }
-        public string? image { get; set; }
-        public string? name { get; set; }
-        public string? text { get; set; }
-        public float latitude { get; set; }
-        public float longitude { get; set; }
+        public int Thingid { get; set; }
+        public string? Image { get; set; }
+        public string? Name { get; set; }
+        public string? Text { get; set; }
+        public float Latitude { get; set; }
+        public float Longitude { get; set; }
     }
 
-    public class LogicAppPostData
+    public class ThingItem
     {
-        public int thingid { get; set; }
-        public string? image { get; set; }
-        public string? name { get; set; }
-        public string? text { get; set; }
-        public float latitude { get; set; }
-        public float longitude { get; set; }
+        public long Thingid { get; set; }
+        public string? Name { get; set; }
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
+        public string? Image { get; set; }
+        public string? Text { get; set; }
+        public string? Status { get; set; }
+        public string? Data { get; set; }
+    }
+
+    public class EventGridPostData
+    {
+        public required string subject { get; set; }
+        public required string id { get; set; }
+        public required string eventType { get; set; }
+        public required string eventTime { get; set; }
+        public required ThingItem data { get; set; }
     }
 
 }

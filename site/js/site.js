@@ -108,12 +108,12 @@ function doReportIt() {
         type: "POST",
         url: "/ReportIt",
         data: JSON.stringify({
-            thingid: parseInt(vThingid),
-            image: dataURL,
-            name: $('#idName').val(),
-            text: $('#idText').val(),
-            latitude: currLat,
-            longitude: currLong
+            Thingid: parseInt(vThingid),
+            Image: dataURL,
+            Name: $('#idName').val(),
+            Text: $('#idText').val(),
+            Latitude: currLat,
+            Longitude: currLong
         }),
         dataType: "json",
         headers: {

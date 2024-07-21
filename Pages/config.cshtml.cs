@@ -91,7 +91,8 @@ namespace ThingsReportIt.Pages
             }
 
             if (Thingid != null)
-            {
+            {   
+                Thingid = Thingid.Trim();
                 Response.Cookies.Append("Thingid", Thingid,                    
                     new CookieOptions
                     {
