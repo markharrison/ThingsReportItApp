@@ -29,3 +29,7 @@ Environment variables / configuration
 ## Package 
 
 <https://github.com/markharrison/ThingsReportItApp/pkgs/container/thingsreportitapp>
+
+## History
+
+18 March 2025 - upgrade to .NET 9.0
